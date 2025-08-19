@@ -1,0 +1,28 @@
+{
+  "name": "boltgate",
+  "version": "1.0.0",
+  "description": "NextAuth setup tool for Next.js projects",
+  "bin": {
+    "boltgate": "./bin/index.js"
+  },
+  "type": "module",
+  "author": "Jay Shende",
+  "license": "MIT",
+  "keywords": [
+    "next-auth",
+    "cli",
+    "nextjs",
+    "authentication"
+  ],
+  "files": [
+    "bin",
+    "template"
+  ],
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.10.0",
+    "@prisma/client": "^6.14.0",
+    "next-auth": "^5.0.0-beta.29",
+    "prisma": "^6.14.0",
+    "react-icons": "^5.5.0"
+  }
+}

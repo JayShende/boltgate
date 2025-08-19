@@ -1,0 +1,13 @@
+auth.ts -> in the root of the next auth
+app/lib/index.ts index.ts at the location
+app/api/auth/[…nextauth]/route.ts
+.env in the root of the dir
+route.ts in root dir
+ middleware.ts in the root of dir
+ app/auth/login/page.tsx
+ /components/login_component_1.tsx
+
+ auth.config.ts
+ and protechted/dashobard
+
+create multiplethemes pages
