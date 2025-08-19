@@ -18,6 +18,14 @@
     "bin",
     "template"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JayShende/boltgate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JayShende/boltgate/issues"
+  },
+  "homepage": "https://github.com/JayShende/boltgate#readme",
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
     "@prisma/client": "^6.14.0",
