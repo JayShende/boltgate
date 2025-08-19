@@ -1,6 +1,6 @@
 {
   "name": "boltgate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NextAuth setup tool for Next.js projects",
   "bin": {
     "boltgate": "./bin/index.js"
