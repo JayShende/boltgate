@@ -1,200 +1,270 @@
-# ⚡Boltgate Documentation
+<div align="center">
+  <img src="image/README/header_image.png" alt="Boltgate Header" width="600" />
+  
+  <h1>⚡ Boltgate</h1>
+  <p><strong>One bolt to secure it all</strong></p>
+  
+  <p>CLI tool that sets up <strong>NextAuth v5</strong> with Prisma in your Next.js project with just one command. No more manual configuration - get a complete authentication system ready to use!</p>
+</div>
 
-## 🚀 Introduction
+## ✨ What You Get
 
-**Boltgate** is a CLI tool designed to make setting up **NextAuth** with a Prisma adapter in a Next.js (TypeScript) project effortless.
-
-Manually configuring NextAuth requires installing dependencies, creating config files, and updating your project structure. Boltgate automates all of this by:
-
-1. Installing required **npm** dependencies.
-2. Running **npx** scripts for initialization.
-3. Copying **template files** (prebuilt configs & boilerplates) into your project.
-4. Merging template code into existing files if they already exist.
-
-This saves you from repetitive boilerplate work and ensures you start with a **ready-to-use NextAuth setup** .
+- 🔐 Complete NextAuth v5 setup with Prisma
+- 🎨 Modern login UI with OAuth providers (GitHub, Google)
+- 🛡️ Route protection middleware
+- 🗄️ Database schema with User/Account models
+- 🎯 Ready-to-use components and pages
+- 📱 Responsive design with Tailwind CSS
 
 ---
 
-## 📦 Installation
+## 🚀 Quick Start
 
-### 1. Install globally (recommended)
+### 1. Install Boltgate
 
 ```bash
 npm install -g boltgate
 ```
 
-Now you can run it from anywhere using:
+### 2. Run in your Next.js project
 
 ```bash
+cd your-nextjs-project
 boltgate
 ```
 
-### 2. Use via NPX (one-time run)
+### 3. Set up your database
+
+Add your database URL to `.env`:
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/mydb"
+NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+### 4. Run database migrations
 
 ```bash
-npx boltgate
+npx prisma migrate dev
+```
+
+### 5. Start your app
+
+```bash
+npm run dev
+```
+
+That's it! You now have a complete authentication system. 🎉
+
+---
+
+## 🎨 Customization
+
+### Adding OAuth Providers
+
+Edit `auth.config.ts` to add more providers:
+
+```typescript
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
+import Discord from "next-auth/providers/discord";
+import type { NextAuthConfig } from "next-auth";
+
+export default {
+  providers: [GitHub, Google, Discord],
+} satisfies NextAuthConfig;
+```
+
+Add the required environment variables:
+
+```env
+GITHUB_ID="your-github-client-id"
+GITHUB_SECRET="your-github-client-secret"
+GOOGLE_ID="your-google-client-id"
+GOOGLE_SECRET="your-google-client-secret"
+DISCORD_ID="your-discord-client-id"
+DISCORD_SECRET="your-discord-client-secret"
+```
+
+### Customizing Routes
+
+Edit `route.ts` to define which routes are public or protected:
+
+```typescript
+export const publicRoutes = ["/", "/about", "/contact"];
+
+export const authRoutes = ["/auth/login", "/auth/register"];
+
+export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
+```
+
+### Adding Custom User Fields
+
+Extend the Prisma schema in `prisma/schema.prisma`:
+
+```prisma
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  role          String          @default("USER")
+  bio           String?
+  accounts      Account[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+```
+
+Then run:
+
+```bash
+npx prisma migrate dev
+```
+
+### Customizing the Login Component
+
+Edit `components/login_component_1.tsx` to match your design:
+
+```typescript
+// Add your custom styling, additional providers, or branding
+const LoginComponent = () => {
+  return (
+    <Card className="w-[400px]">
+      <CardHeader>
+        <CardTitle>Welcome to MyApp</CardTitle>
+        <CardDescription>Sign in to continue</CardDescription>
+
+        {/* Your custom login buttons */}
+        <Button onClick={() => signIn("github")}>
+          <FaGithub />
+          Continue with GitHub
+        </Button>
+      </CardHeader>
+    </Card>
+  );
+};
 ```
 
 ---
 
-## ⚡ Usage
+## 📁 Project Structure
 
-Inside your Next.js project folder:
-
-```bash
-boltgate
-```
-
-What happens when you run this:
-
-1. Boltgate checks your project environment.
-2. Installs required **npm dependencies** :
-   - `next-auth`
-   - `@auth/prisma-adapter`
-   - `@prisma/client`
-   - `prisma`
-   - `react-icons`
-3. Runs **npx scripts** (like `prisma init` if included).
-4. Copies required template files into your project (auth configs, route handlers, etc).
-5. If files already exist, Boltgate **merges** the new template content instead of overwriting.
-
----
-
-## 📂 Project Structure (after Boltgate setup)
-
-Here’s what Boltgate sets up inside your Next.js app:
+After running Boltgate, your project will have:
 
 ```
 your-project/
-│
 ├── app/
-│   └── api/
-│       └── auth/
-│           └── [...nextauth]/
-│               └── route.ts   <-- API route handler for NextAuth
-│
-├── auth/
-│   ├── auth.config.ts         <-- Central NextAuth config
-│   ├── callbacks.ts           <-- Example custom callbacks
-│   ├── options.ts             <-- Auth options for providers, pages, etc
-│   └── types.ts               <-- Type definitions for auth
-│
-├── lib/
-│   └── prisma.ts              <-- Prisma client helper
-│
-├── prisma/
-│   └── schema.prisma          <-- Prisma schema file (updated for auth)
-│
-└── package.json
+│   ├── (protected)/
+│   │   └── dashboard/page.tsx     # Protected dashboard
+│   ├── api/auth/[...nextauth]/
+│   │   └── route.ts               # Auth API routes
+│   ├── auth/login/page.tsx        # Login page
+│   └── lib/index.ts               # Prisma client
+├── components/
+│   └── login_component_1.tsx      # Login component
+├── auth.config.ts                 # Auth providers config
+├── auth.ts                        # Main auth setup
+├── middleware.ts                  # Route protection
+├── route.ts                       # Route constants
+└── prisma/schema.prisma           # Database schema
 ```
 
 ---
 
-## 🛠 How Boltgate Works Internally
+## 🔧 Common Tasks
 
-Boltgate has two main parts:
+### Adding a New Protected Page
 
-### 1. **bin/index.js** (The CLI entry point)
+1. Create your page in `app/(protected)/your-page/page.tsx`
+2. The middleware will automatically protect it
 
-- This is the script that runs when you type `boltgate` in your terminal.
-- Responsibilities:
-  1. Show log messages (`📦 Installing dependencies`, `📁 Copying files` etc).
-  2. Install npm dependencies (using an array of required packages).
-  3. Run necessary npx scripts (like `prisma generate`).
-  4. Copy template files from `template/` into the user’s project.
-  5. If the file already exists → **append/merge** template code instead of overwriting.
+### Adding a New Public Page
 
-> Think of it as the **“brains”** of the tool.
+1. Add the route to `publicRoutes` in `route.ts`
+2. Create your page normally
 
----
+### Customizing User Session
 
-### 2. **template/** (The boilerplate files)
+Edit `auth.ts` to add custom session data:
 
-This folder contains the **prebuilt files** that get copied into the Next.js project.
-
-- **`template/auth/`**
-  - `auth.config.ts` → Main NextAuth config export.
-  - `callbacks.ts` → Example custom JWT/session callbacks.
-  - `options.ts` → Options for NextAuth providers, pages, etc.
-  - `types.ts` → TypeScript types for auth context.
-- **`template/app/api/auth/[...nextauth]/route.ts`**
-  - Defines the API route for NextAuth in the Next.js App Router.
-  - Exports `GET` and `POST` handlers by using the config.
-- **`template/lib/prisma.ts`**
-  - Creates and exports a **Prisma Client instance** .
-  - Handles hot-reload safe initialization for Next.js (avoiding multiple instances).
-- **`template/prisma/schema.prisma`**
-  - Prisma schema updated with models required for authentication.
-  - Example: `User`, `Account`, `Session`, `VerificationToken`.
+```typescript
+export const { auth, handlers, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(client),
+  callbacks: {
+    async session({ session, token }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+        // Add custom fields
+        session.user.role = token.role;
+      }
+      return session;
+    },
+  },
+  // ... rest of config
+});
+```
 
 ---
 
-## 📦 Dependencies
+## 🐛 Troubleshooting
 
-Boltgate installs and configures the following dependencies automatically:
-
-| Package                  | Purpose                                            |
-| ------------------------ | -------------------------------------------------- |
-| **next-auth**            | Core NextAuth library for authentication           |
-| **@auth/prisma-adapter** | Adapter for NextAuth to work with Prisma           |
-| **@prisma/client**       | Prisma client for database queries                 |
-| **prisma**               | CLI for Prisma (schema management & migrations)    |
-| **react-icons**          | Icons for UI (optional, but included for auth UIs) |
-
----
-
-## 📖 Example Workflow
-
-1. Start with a clean Next.js TS project:
-   ```bash
-   npx create-next-app@latest my-app --typescript
-   cd my-app
-   ```
-2. Run Boltgate:
-   ```bash
-   npx boltgate
-   ```
-3. Boltgate does the following automatically:
-   - Installs `next-auth`, Prisma, and related deps.
-   - Runs `npx prisma init` (creates `prisma/` folder).
-   - Copies auth boilerplate files into `auth/`, `lib/`, `app/api/auth/`.
-   - Updates your `schema.prisma` with auth models.
-4. You now have a **working NextAuth + Prisma setup** . Just add your DB connection string in `.env`, run migrations, and you’re good to go.
-
----
-
-## 🔑 Development (for contributors)
-
-If you want to test Boltgate locally before publishing:
+### "Module not found" errors
 
 ```bash
-git clone https://github.com/JayShende/boltgate.git
-cd boltgate
+rm -rf node_modules package-lock.json
 npm install
-npm link
 ```
 
-Now inside any Next.js project, run:
+### Database connection issues
+
+- Check your `DATABASE_URL` in `.env`
+- Make sure your database is running
+- Verify the connection string format
+
+### OAuth provider not working
+
+- Verify client ID and secret in `.env`
+- Check redirect URLs in provider settings
+- Ensure `NEXTAUTH_URL` is set correctly
+
+### Prisma client not generated
 
 ```bash
-boltgate
+npx prisma generate
 ```
-
-It will execute your local development version of Boltgate.
 
 ---
 
-## 📤 Publishing
+## 📦 What Gets Installed
 
-Boltgate is available on npm:
+Boltgate automatically installs:
 
-👉 [https://www.npmjs.com/package/boltgate](https://www.npmjs.com/package/boltgate)
-
-To publish updates:
-
-```bash
-npm version patch   # or minor/major
-npm publish --access public
-```
+- `next-auth@beta` - Authentication library
+- `@auth/prisma-adapter` - Database adapter
+- `@prisma/client` - Database client
+- `prisma` - Database toolkit
+- `react-icons` - UI icons
 
 ---
+
+## 🤝 Contributing
+
+Found a bug or want to add a feature? We'd love your help!
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+---
+
+## 📄 License
+
+MIT License - feel free to use in your projects!
+
+---
+
+**Made with ❤️ by [Jay Shende](https://github.com/JayShende)**
