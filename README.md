@@ -1,10 +1,10 @@
 <div align="center">
   <img src="image/README/header_image.png" alt="Boltgate Header" width="600" />
-  
-  <h1>⚡ Boltgate</h1>
+
+<h1>⚡ Boltgate</h1>
   <p><strong>One bolt to secure it all</strong></p>
-  
-  <p>CLI tool that sets up <strong>NextAuth v5</strong> with Prisma in your Next.js project with just one command. No more manual configuration - get a complete authentication system ready to use!</p>
+
+<p>CLI tool that sets up <strong>NextAuth v5</strong> with Prisma in your Next.js project with just one command. No more manual configuration - get a complete authentication system ready to use!</p>
 </div>
 
 ## ✨ What You Get
@@ -267,4 +267,4 @@ MIT License - feel free to use in your projects!
 
 ---
 
-**Made with ❤️ by [Jay Shende](https://github.com/JayShende)**
+**Made with ❤️ by [Jay Shnde](https://github.com/JayShende)**
