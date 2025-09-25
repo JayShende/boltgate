@@ -1,4 +1,4 @@
-﻿# ⚡Boltgate Documentation
+# ⚡Boltgate Documentation
 
 ## 🚀 Introduction
 
@@ -11,7 +11,7 @@ Manually configuring NextAuth requires installing dependencies, creating config 
 3. Copying **template files** (prebuilt configs & boilerplates) into your project.
 4. Merging template code into existing files if they already exist.
 
-This saves you from repetitive boilerplate work and ensures you start with a  **ready-to-use NextAuth setup** .
+This saves you from repetitive boilerplate work and ensures you start with a **ready-to-use NextAuth setup** .
 
 ---
 
@@ -48,12 +48,12 @@ boltgate
 What happens when you run this:
 
 1. Boltgate checks your project environment.
-2. Installs required  **npm dependencies** :
-   * `next-auth`
-   * `@auth/prisma-adapter`
-   * `@prisma/client`
-   * `prisma`
-   * `react-icons`
+2. Installs required **npm dependencies** :
+   - `next-auth`
+   - `@auth/prisma-adapter`
+   - `@prisma/client`
+   - `prisma`
+   - `react-icons`
 3. Runs **npx scripts** (like `prisma init` if included).
 4. Copies required template files into your project (auth configs, route handlers, etc).
 5. If files already exist, Boltgate **merges** the new template content instead of overwriting.
@@ -96,8 +96,8 @@ Boltgate has two main parts:
 
 ### 1. **bin/index.js** (The CLI entry point)
 
-* This is the script that runs when you type `boltgate` in your terminal.
-* Responsibilities:
+- This is the script that runs when you type `boltgate` in your terminal.
+- Responsibilities:
   1. Show log messages (`📦 Installing dependencies`, `📁 Copying files` etc).
   2. Install npm dependencies (using an array of required packages).
   3. Run necessary npx scripts (like `prisma generate`).
@@ -112,20 +112,20 @@ Boltgate has two main parts:
 
 This folder contains the **prebuilt files** that get copied into the Next.js project.
 
-* **`template/auth/`**
-  * `auth.config.ts` → Main NextAuth config export.
-  * `callbacks.ts` → Example custom JWT/session callbacks.
-  * `options.ts` → Options for NextAuth providers, pages, etc.
-  * `types.ts` → TypeScript types for auth context.
-* **`template/app/api/auth/[...nextauth]/route.ts`**
-  * Defines the API route for NextAuth in the Next.js App Router.
-  * Exports `GET` and `POST` handlers by using the config.
-* **`template/lib/prisma.ts`**
-  * Creates and exports a  **Prisma Client instance** .
-  * Handles hot-reload safe initialization for Next.js (avoiding multiple instances).
-* **`template/prisma/schema.prisma`**
-  * Prisma schema updated with models required for authentication.
-  * Example: `User`, `Account`, `Session`, `VerificationToken`.
+- **`template/auth/`**
+  - `auth.config.ts` → Main NextAuth config export.
+  - `callbacks.ts` → Example custom JWT/session callbacks.
+  - `options.ts` → Options for NextAuth providers, pages, etc.
+  - `types.ts` → TypeScript types for auth context.
+- **`template/app/api/auth/[...nextauth]/route.ts`**
+  - Defines the API route for NextAuth in the Next.js App Router.
+  - Exports `GET` and `POST` handlers by using the config.
+- **`template/lib/prisma.ts`**
+  - Creates and exports a **Prisma Client instance** .
+  - Handles hot-reload safe initialization for Next.js (avoiding multiple instances).
+- **`template/prisma/schema.prisma`**
+  - Prisma schema updated with models required for authentication.
+  - Example: `User`, `Account`, `Session`, `VerificationToken`.
 
 ---
 
@@ -133,8 +133,8 @@ This folder contains the **prebuilt files** that get copied into the Next.js pro
 
 Boltgate installs and configures the following dependencies automatically:
 
-| Package                        | Purpose                                            |
-| ------------------------------ | -------------------------------------------------- |
+| Package                  | Purpose                                            |
+| ------------------------ | -------------------------------------------------- |
 | **next-auth**            | Core NextAuth library for authentication           |
 | **@auth/prisma-adapter** | Adapter for NextAuth to work with Prisma           |
 | **@prisma/client**       | Prisma client for database queries                 |
@@ -155,11 +155,11 @@ Boltgate installs and configures the following dependencies automatically:
    npx boltgate
    ```
 3. Boltgate does the following automatically:
-   * Installs `next-auth`, Prisma, and related deps.
-   * Runs `npx prisma init` (creates `prisma/` folder).
-   * Copies auth boilerplate files into `auth/`, `lib/`, `app/api/auth/`.
-   * Updates your `schema.prisma` with auth models.
-4. You now have a  **working NextAuth + Prisma setup** . Just add your DB connection string in `.env`, run migrations, and you’re good to go.
+   - Installs `next-auth`, Prisma, and related deps.
+   - Runs `npx prisma init` (creates `prisma/` folder).
+   - Copies auth boilerplate files into `auth/`, `lib/`, `app/api/auth/`.
+   - Updates your `schema.prisma` with auth models.
+4. You now have a **working NextAuth + Prisma setup** . Just add your DB connection string in `.env`, run migrations, and you’re good to go.
 
 ---
 
