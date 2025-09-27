@@ -11,10 +11,11 @@
 
 - 🔐 Complete NextAuth v5 setup with Prisma
 - 🎨 Modern login UI with OAuth providers (GitHub, Google)
-- 🛡️ Route protection middleware
+- 🛡️ Route protection middleware with regex support
 - 🗄️ Database schema with User/Account models
 - 🎯 Ready-to-use components and pages
 - 📱 Responsive design with Tailwind CSS
+- 🚀 **NEW**: Flexible public URL configuration with regex patterns
 
 ---
 
@@ -89,15 +90,33 @@ DISCORD_SECRET="your-discord-client-secret"
 
 ### Customizing Routes
 
-Edit `route.ts` to define which routes are public or protected:
+Edit `route.ts` to define which routes are public or protected. You can now use both exact string matches and regex patterns for more flexible route configuration:
 
 ```typescript
-export const publicRoutes = ["/", "/about", "/contact"];
+/**
+ * Public routes (exact or pattern-based).
+ * - Strings = exact matches
+ * - Regex = dynamic patterns
+ */
+export const publicRoutes: (string | RegExp)[] = [
+  "/", // homepage (exact match)
+  "/about", // about page (exact match)
+  /^\/form\/[^/]+\/view$/, // matches /form/{anything}/view (regex pattern)
+  /^\/form\/[^/]+\/edit$/, // matches /form/{anything}/edit (regex pattern)
+  /^\/blog\/\d{4}\/\d{2}\/\d{2}\/.+$/, // matches /blog/YYYY/MM/DD/title (regex pattern)
+];
 
 export const authRoutes = ["/auth/login", "/auth/register"];
 
 export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
 ```
+
+#### Regex Pattern Examples
+
+- `/^\/form\/[^/]+\/view$/` - Matches any form view URL like `/form/contact/view`, `/form/survey/view`
+- `/^\/blog\/\d{4}\/\d{2}\/\d{2}\/.+$/` - Matches blog posts with date structure like `/blog/2024/01/15/my-post`
+- `/^\/api\/public\/.+$/` - Matches all public API routes like `/api/public/users`, `/api/public/data`
+- `/^\/docs\/[a-z-]+$/` - Matches documentation pages like `/docs/getting-started`, `/docs/api-reference`
 
 ### Adding Custom User Fields
 
@@ -183,8 +202,13 @@ your-project/
 
 ### Adding a New Public Page
 
-1. Add the route to `publicRoutes` in `route.ts`
+1. Add the route to `publicRoutes` in `route.ts` (supports both exact strings and regex patterns)
 2. Create your page normally
+
+**Examples:**
+
+- For exact routes: `"/about"`, `"/contact"`
+- For dynamic routes: `/^\/product\/[^/]+$/` (matches `/product/laptop`, `/product/phone`)
 
 ### Customizing User Session
 
